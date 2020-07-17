@@ -264,7 +264,7 @@ public final class DTLZ {
      */
     public static ArrayList<Double> dtlz4(ArrayList<Double> genotype, int objectiveNum)
     {
-        double alpha = 1.0;
+        double alpha = 100.0;
         //Calculate g
         double g=0.0;
         int k = genotype.size()-objectiveNum+1;
@@ -312,10 +312,4 @@ public final class DTLZ {
         fitness.add(fM);
         return fitness;
     }
-
-
-
-
-
-
 }

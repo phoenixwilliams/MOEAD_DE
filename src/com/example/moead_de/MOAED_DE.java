@@ -1,6 +1,7 @@
 package com.example.moead_de;
 
 import javax.sound.midi.SysexMessage;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,7 +9,7 @@ import java.util.Random;
 
 public class MOAED_DE {
 
-    public static void moaedDE(String problem, int iterations, int N, int T, int objectiveNum, int variableEncoding,
+    public static ArrayList<Solution> moaedDE(String problem, int iterations, int N, int T, int objectiveNum, int variableEncoding,
                                double delta, double nr, double CR, double F, double lowerBound, double upperBound,
                                double nm, double pm)
     {
@@ -25,7 +26,7 @@ public class MOAED_DE {
         ArrayList<ArrayList<Integer>> B = WeightUtils.computeB(weightVectors,T);
         ArrayList<Solution> population = Initialize.InitialPopulation(N, variableEncoding);
         FitnessUtils.problemEvaluationPopulation(population, problem, objectiveNum);
-        FitnessUtils.NormalizePopulationProblemFitness(population,objectiveNum);
+        //FitnessUtils.NormalizePopulationProblemFitness(population,objectiveNum);
 
         ArrayList<Double> z = WeightUtils.computeZ(population, objectiveNum);
         //ArrayList<Double> z = new ArrayList<>(Arrays.asList(0.0,0.0));
@@ -159,25 +160,25 @@ public class MOAED_DE {
             //System.out.println("Z:"+z.toString());
 
         }
+        /**
         for (Solution sol:population)
         {
             System.out.println(sol.getProblemFitness().toString());
             //System.out.println(sol.getGenotype().toString());
         }
+         */
         System.out.println("z:"+z.toString());
-        AnalysisUtils.generateDatFile(population, "solutions", objectiveNum);
+        AnalysisUtils.generateDatFile(population, "PF/solutions", objectiveNum);
 
-
-
-
+        return population;
     }
 
     public static void main(String[] args)
     {
 
-        String problem = "DTLZ4";
+        String problem = "DTLZ3";
         int iterations = 5000;
-        int N = 300;
+        int N = 500;
         int T = 20;
         int objectiveNum = 3;
         int variableEncoding = 30;
@@ -188,18 +189,15 @@ public class MOAED_DE {
         double pm = (double) 1/N;
         double lowerBound = 0.0;
         double upperBound = 1.0;
-        double nm = 0;
+        double nm =15;
 
 
-        moaedDE(problem,iterations,N,T,objectiveNum,variableEncoding, delta,nr,CR,F,lowerBound,upperBound, nm,pm);
+        ArrayList<Solution> solutions = moaedDE(problem,iterations,N,T,objectiveNum,variableEncoding,
+                delta,nr,CR,F,lowerBound,upperBound, nm,pm);
 
-        //ArrayList<ArrayList<Double>> weightVectors = WeightUtils.initialWeightPopulation(N,objectiveNum);
-        //ArrayList<ArrayList<Integer>> B = WeightUtils.computeB(weightVectors,T);
-        //ArrayList<Solution> population = Initialize.InitialPopulation(N, variableEncoding);
-        //FitnessUtils.problemEvaluationPopulation(population, problem, objectiveNum);
-        //FitnessUtils.NormalizePopulationProblemFitness(population,objectiveNum);
-        //ArrayList<Double> z = WeightUtils.computeZ(population, objectiveNum);
-        //System.out.println(z.toString());
+        double igd = IGD.ComputeIDG(solutions, problem);
+
+        System.out.println("IGD:"+igd);
 
 
 
