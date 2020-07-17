@@ -210,10 +210,13 @@ public final class DTLZ {
         return fitness;
     }
 
-    /**
+
+
+
+
     public static ArrayList<Double> dtlz4(ArrayList<Double> genotype, int objectiveNum)
     {
-        int alpha = 1;
+        double alpha=100.0;
         //Calculate g
         double g=0.0;
         int k = genotype.size()-objectiveNum+1;
@@ -221,7 +224,6 @@ public final class DTLZ {
         {
             g += Math.pow(genotype.get(i)-0.5, 2.0);
         }
-        g = 100.0*(k + g);
 
         //Calculate f1&f2
         double f1 = 1.0;
@@ -261,55 +263,5 @@ public final class DTLZ {
         fitness.add(fM);
         return fitness;
     }
-     */
-    public static ArrayList<Double> dtlz4(ArrayList<Double> genotype, int objectiveNum)
-    {
-        double alpha = 100.0;
-        //Calculate g
-        double g=0.0;
-        int k = genotype.size()-objectiveNum+1;
 
-        for (int i=genotype.size()-k;i<genotype.size();i++)
-        {
-            g += Math.pow(genotype.get(i)-0.5, 2.0);
-        }
-
-        //Calculate f1&f2
-        double f1 = 1.0;
-        for (int i=0; i<objectiveNum-2;i++)
-        {
-            f1 *= Math.cos(Math.pow(genotype.get(i),alpha)*(Math.PI/2.0));
-        }
-        double f2 = (1.0+g)*f1*Math.sin(Math.pow(genotype.get(objectiveNum-2),alpha)*(Math.PI/2.0));
-        f1 = (1.0+g)*f1*Math.cos(Math.pow(genotype.get(objectiveNum-2),2.0)*(Math.PI/2.0));
-
-
-        //Calculate Rest of Objectives
-        ArrayList<Double> restObjectives = new ArrayList<>();
-        double objective;
-        for (int i=2;i<objectiveNum-1;i++)
-        {
-            objective = (1.0+g)*Math.cos(Math.pow(genotype.get(0),2.0)*(Math.PI/2.0));
-            for (int j=1;j<objectiveNum-2;j++)
-            {
-                objective*=Math.sin(Math.pow(genotype.get(j),2.0)*(Math.PI/2.0));
-            }
-            restObjectives.add(objective);
-        }
-
-        //Calculate fM
-        double fM = (1.0+g)*Math.sin(Math.pow(genotype.get(0),alpha)*(Math.PI/2.0));
-
-        ArrayList<Double> fitness = new ArrayList<>();
-        fitness.add(f1);
-        fitness.add(f2);
-
-        for (Double d:restObjectives)
-        {
-            fitness.add(d);
-        }
-
-        fitness.add(fM);
-        return fitness;
-    }
 }

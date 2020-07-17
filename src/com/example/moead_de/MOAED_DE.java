@@ -176,20 +176,20 @@ public class MOAED_DE {
     public static void main(String[] args)
     {
 
-        String problem = "DTLZ3";
+        String problem = "DTLZ4";
         int iterations = 5000;
-        int N = 500;
+        int N = 300;
         int T = 20;
         int objectiveNum = 3;
         int variableEncoding = 30;
         double delta = 0.9;
         double nr = 2;
-        double CR = 0.5;
+        double CR = 1.0;
         double F = 0.5;
         double pm = (double) 1/N;
         double lowerBound = 0.0;
         double upperBound = 1.0;
-        double nm =15;
+        double nm =5;
 
 
         ArrayList<Solution> solutions = moaedDE(problem,iterations,N,T,objectiveNum,variableEncoding,
